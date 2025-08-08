@@ -1,6 +1,6 @@
 <script>
   // Temporizador - data do namoro
-  const dataInicio = new Date("2025-05-24T18:10:00");
+  const dataInicio = new Date(2025, 4, 24, 18, 0, 0);
   const timer = document.getElementById('timer');
 
   function atualizarTempo() {
