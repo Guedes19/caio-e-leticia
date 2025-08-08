@@ -16,14 +16,13 @@
       overflow-x: hidden; /* Evita scroll horizontal */
       width: 100%;
       height: 100%;
-    }
-    body {
       font-family: 'Arial', sans-serif;
       color: white;
       background: url('fundo.jpg') center/cover no-repeat fixed;
       position: relative;
       box-sizing: border-box;
     }
+    /* Fundo escurecido */
     .overlay {
       position: fixed;
       top: 0; left: 0;
@@ -32,6 +31,7 @@
       background-color: rgba(0, 0, 0, 0.6);
       z-index: -1;
     }
+    /* Corações caindo */
     .emoji {
       position: absolute;
       font-size: 24px;
@@ -51,6 +51,7 @@
         opacity: 1;
       }
     }
+    /* Container */
     .container {
       max-width: 600px;
       width: 95%;
@@ -103,15 +104,32 @@
     #surpriseBtn:hover {
       background-color: #22c55e;
     }
-    #photo {
+    /* Carrossel */
+    #carousel-container {
+      margin: 1rem auto;
       max-width: 100%;
-      height: auto;
+      text-align: center;
+    }
+    #carousel-container button {
+      width: auto;
+      padding: 8px 15px;
+      margin: 0 5px 10px;
+      border-radius: 6px;
+      background: #34d399;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+    #carouselImage {
+      max-width: 100%;
+      max-height: 300px;
       border-radius: 12px;
-      margin: 1rem auto 0;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
-      display: none;
       object-fit: contain;
     }
+    /* Texto surpresa */
     #typed-text {
       margin: 1rem auto 0 auto;
       white-space: pre-wrap;
@@ -125,6 +143,7 @@
       line-height: 1.5em;
       box-sizing: border-box;
     }
+    /* Responsivo */
     @media (max-width: 400px) {
       h1 {
         font-size: 1.8rem;
@@ -141,8 +160,8 @@
         font-size: 0.9rem;
         max-width: 100%;
       }
-      #photo {
-        width: 100%;
+      #carouselImage {
+        max-height: 220px;
       }
     }
   </style>
@@ -162,7 +181,13 @@
       Seu navegador não suporta áudio.
     </audio>
 
-    <img id="photo" src="foto-surpresa.jpg" alt="Foto Surpresa" />
+    <div id="carousel-container" style="display:none;">
+      <button id="prevBtn" aria-label="Imagem anterior">←</button>
+      <button id="nextBtn" aria-label="Próxima imagem">→</button>
+      <br />
+      <img id="carouselImage" src="" alt="Imagem Surpresa" />
+    </div>
+
     <p id="typed-text"></p>
   </div>
 
@@ -213,11 +238,53 @@
     }
     setInterval(criarCoracao, 200);
 
-    // Surpresa
+    // Surpresa - Carrossel
     const surpriseBtn = document.getElementById('surpriseBtn');
-    const photo = document.getElementById('photo');
+    const carouselContainer = document.getElementById('carousel-container');
+    const carouselImage = document.getElementById('carouselImage');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const typedText = document.getElementById('typed-text');
 
+    const imagens = [
+      'foto-surpresa1.jpg',
+      'foto-surpresa2.jpg',
+      'foto-surpresa3.jpg'
+      // Adicione suas imagens aqui
+    ];
+
+    let indexImagem = 0;
+    let intervalId;
+
+    function mostrarImagem(i) {
+      if (i < 0) i = imagens.length - 1;
+      if (i >= imagens.length) i = 0;
+      indexImagem = i;
+      carouselImage.src = imagens[indexImagem];
+    }
+
+    function iniciarSlideAutomatico() {
+      intervalId = setInterval(() => {
+        mostrarImagem(indexImagem + 1);
+      }, 4000);
+    }
+
+    function reiniciarSlideAutomatico() {
+      clearInterval(intervalId);
+      iniciarSlideAutomatico();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      mostrarImagem(indexImagem - 1);
+      reiniciarSlideAutomatico();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      mostrarImagem(indexImagem + 1);
+      reiniciarSlideAutomatico();
+    });
+
+    // Texto da surpresa
     const textoCompleto = `Minha princesa, este temporizador marca o início oficial de nosso relacionamento diante de Deus e dos homens; E há quanto tempo eu sou o homem mais feliz, rico e sortudo desse universo.
 
 Que essa simples página - mas dotada de muito amor e carinho - esteja acessível em qualquer dia, horas e lugar para nos (re)lembrar de quão maravilhoso é o nosso amor e que ele rompe qualquer barreira, passa por cima de qualquer empecilho e expulsa qualquer medo e orgulho, pois, com Cristo no barco, tudo vai muito bem.
@@ -243,8 +310,11 @@ Seu amigo, parceiro e namorado: Caio.`;
     }
 
     surpriseBtn.addEventListener('click', () => {
-      photo.style.display = "block";
+      carouselContainer.style.display = 'block';
+      typedText.style.display = 'block';
+      mostrarImagem(0);
       escreverTexto(typedText, textoCompleto);
+      iniciarSlideAutomatico();
     });
   </script>
 </body>
