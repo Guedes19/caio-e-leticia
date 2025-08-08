@@ -1,111 +1,96 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>C4io & Letícia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Caio & Letícia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       background: linear-gradient(to right, #ffecd2, #fcb69f);
       font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 40px 20px;
-      color: #333;
+      margin: 0;
+      padding: 0;
     }
     h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
+      font-size: 3em;
+      margin-top: 40px;
+      color: #333;
     }
     p {
       font-size: 1.2em;
-      margin-top: 0;
-      margin-bottom: 30px;
-      font-style: italic;
+      margin-bottom: 20px;
+      color: #444;
     }
-    #timer {
-      font-size: 1.5em;
+    .timer {
+      font-size: 2em;
       font-weight: bold;
-    }
-    #playButton {
       margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #fcb69f;
-      color: #fff;
-      transition: background-color 0.3s ease;
+      color: #222;
     }
-    #playButton:hover {
-      background-color: #ff8c5e;
+    button {
+      background-color: #ff7f50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #ff4500;
     }
   </style>
 </head>
 <body>
-  <h1>Caio & Letícia</h1>
-  <p>"Ele orou por ela;<br />Ela orou por ele;<br />Deus sorriu pra eles."</p>
-  <div id="timer">Carregando...</div>
 
-  <button id="playButton">Tocar música</button>
+  <h1>💖 Caio & Letícia 💖</h1>
+  <p><strong>Música:</strong> Space & Time - Rafael Witt</p>
 
-  <audio id="backgroundAudio" loop>
-    <source src="SPACE_AND_TIME.mp3" type="audio/mpeg" />
+  <div class="timer" id="timer"></div>
+
+  <button id="btnMusica" onclick="controlarMusica()">▶ Tocar Música</button>
+
+  <audio id="musica" loop>
+    <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
   </audio>
 
   <script>
-    // Timer atualizado com cálculo correto
-    const startDate = new Date("2025-05-24T18:00:00");
+    // Temporizador - data do namoro
+    const dataInicio = new Date("2023-09-03T00:00:00");
+    const timer = document.getElementById('timer');
 
-    function updateTimer() {
-      const now = new Date();
-      let years = now.getFullYear() - startDate.getFullYear();
-      let months = now.getMonth() - startDate.getMonth();
-      let days = now.getDate() - startDate.getDate();
-      let hours = now.getHours() - startDate.getHours();
-      let minutes = now.getMinutes() - startDate.getMinutes();
-      let seconds = now.getSeconds() - startDate.getSeconds();
+    function atualizarTempo() {
+      const agora = new Date();
+      const diff = agora - dataInicio;
 
-      if (seconds < 0) {
-        seconds += 60;
-        minutes--;
-      }
-      if (minutes < 0) {
-        minutes += 60;
-        hours--;
-      }
-      if (hours < 0) {
-        hours += 24;
-        days--;
-      }
-      if (days < 0) {
-        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-        days += prevMonth.getDate();
-        months--;
-      }
-      if (months < 0) {
-        months += 12;
-        years--;
-      }
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
 
-      document.getElementById("timer").innerHTML =
-        `${years} anos, ${months} meses, ${days} dias, ` +
-        `${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+      timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
     }
-    setInterval(updateTimer, 1000);
-    updateTimer();
+    setInterval(atualizarTempo, 1000);
+    atualizarTempo();
 
-    // Controle do botão para tocar música
-    const playButton = document.getElementById("playButton");
-    const audio = document.getElementById("backgroundAudio");
+    // Controle da música
+    const audio = document.getElementById('musica');
+    const botao = document.getElementById('btnMusica');
 
-    playButton.addEventListener("click", () => {
-      audio.play().then(() => {
-        playButton.style.display = "none"; // Esconde o botão quando começar a tocar
-      }).catch((error) => {
-        alert("Não foi possível tocar a música: " + error);
-      });
-    });
+    function controlarMusica() {
+      if (audio.paused) {
+        audio.play();
+        botao.textContent = "⏸ Pausar Música";
+      } else {
+        audio.pause();
+        botao.textContent = "▶ Tocar Música";
+      }
+    }
   </script>
+
 </body>
 </html>
