@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
@@ -46,15 +46,18 @@
       max-width: 600px;
       margin: auto;
       text-align: center;
+      box-sizing: border-box;
     }
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
+      word-break: break-word;
     }
     #temporizador {
       font-size: 1.4rem;
       margin: 1rem 0 2rem 0;
       text-shadow: 0 0 6px black;
+      word-break: break-word;
     }
     button {
       cursor: pointer;
@@ -71,6 +74,9 @@
       margin-left: auto;
       margin-right: auto;
       user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #musicaBtn {
       background-color: #a855f7;
@@ -86,22 +92,26 @@
     }
     #photo {
       display: none;
-      max-width: 100%;
+      width: 90%;
+      max-width: 450px;
+      height: auto;
       border-radius: 12px;
       margin: 1rem auto 0 auto;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      object-fit: contain;
     }
     #typed-text {
       margin: 1rem auto 0 auto;
       white-space: pre-wrap;
       font-size: 1rem;
-      max-width: 100%;
+      max-width: 90%;
       text-align: justify;
       border-left: 3px solid #a855f7;
       padding-left: 12px;
       display: none;
       text-shadow: 0 0 4px black;
       line-height: 1.5em;
+      box-sizing: border-box;
     }
     @media (max-width: 400px) {
       h1 {
@@ -113,9 +123,15 @@
       button {
         font-size: 1rem;
         padding: 10px 20px;
+        max-width: 100%;
       }
       #typed-text {
         font-size: 0.9rem;
+        max-width: 95%;
+      }
+      #photo {
+        width: 95%;
+        max-width: 100%;
       }
     }
   </style>
@@ -127,15 +143,15 @@
     <h1>Caio & Letícia</h1>
     <div id="temporizador">Carregando tempo juntos...</div>
 
-    <button id="musicaBtn">▶ Tocar Música</button>
-    <button id="surpriseBtn">🎁 Mostrar Surpresa</button>
+    <button id="musicaBtn" title="Tocar ou pausar música">▶ Tocar Música</button>
+    <button id="surpriseBtn" title="Mostrar foto e mensagem surpresa">🎁 Mostrar Surpresa</button>
 
     <audio id="musica" loop>
       <source src="musica.mp3" type="audio/mpeg" />
       Seu navegador não suporta áudio.
     </audio>
 
-    <img id="photo" src="foto.jpg" alt="foto-surpresa.jpg" />
+    <img id="photo" src="foto-surpresa.jpg" alt="Foto Surpresa" />
     <p id="typed-text"></p>
   </div>
 
