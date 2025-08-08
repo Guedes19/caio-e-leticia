@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <title>Caio & Letícia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
+    /* Hack para esconder a faixa azul do GitHub Pages */
+    #github-banner, .github-banner {
+      display: none !important;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -28,12 +33,13 @@
       z-index: -1;
     }
     .emoji {
-      position: fixed;
+      position: absolute;
       font-size: 24px;
       pointer-events: none;
       animation: fall linear forwards;
       opacity: 1;
       z-index: 0;
+      will-change: transform;
     }
     @keyframes fall {
       from {
@@ -199,7 +205,8 @@
       const coracao = document.createElement('div');
       coracao.classList.add('emoji');
       coracao.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      coracao.style.left = Math.random() * (window.innerWidth - 30) + "px";
+      coracao.style.left = Math.random() * (document.body.clientWidth - 30) + "px";
+      coracao.style.top = "-50px";
       coracao.style.animationDuration = (Math.random() * 3 + 4) + "s";
       document.body.appendChild(coracao);
       setTimeout(() => coracao.remove(), 8000);
