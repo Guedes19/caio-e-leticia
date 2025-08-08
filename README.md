@@ -135,7 +135,7 @@
       Seu navegador não suporta áudio.
     </audio>
 
-    <img id="photo" src="foto.jpg" alt="Foto Surpresa" />
+    <img id="photo" src="foto.jpg" alt="foto-surpresa.jpg" />
     <p id="typed-text"></p>
   </div>
 
