@@ -1,96 +1,38 @@
-<!DOCTYPE htmllll>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Caio & Letícia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      font-size: 3em;
-      margin-top: 40px;
-      color: #333;
-    }
-    p {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-      color: #444;
-    }
-    .timer {
-      font-size: 2em;
-      font-weight: bold;
-      margin-top: 20px;
-      color: #222;
-    }
-    button {
-      background-color: #ff7f50;
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 20px;
-    }
-    button:hover {
-      background-color: #ff4500;
-    }
-  </style>
-</head>
-<body>
+<script>
+  // Temporizador - data do namoro
+  const dataInicio = new Date("2025-05-24T18:10:00");
+  const timer = document.getElementById('timer');
 
-  <h1>💖 Caio & Letícia 💖</h1>
-  <p><strong>Música:</strong> Space & Time - Rafael Witt</p>
+  function atualizarTempo() {
+    const agora = new Date();
+    const diff = agora - dataInicio;
 
-  <div class="timer" id="timer"></div>
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diff / (1000 * 60)) % 60);
+    const segundos = Math.floor((diff / 1000) % 60);
 
-  <button id="btnMusica" onclick="controlarMusica()">▶ Tocar Música</button>
+    timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
+  }
 
-  <audio id="musica" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
+  setInterval(atualizarTempo, 1000);
+  atualizarTempo();
 
-  <script>
-    // Temporizador - data do namoro
-    const dataInicio = new Date("2023-09-03T00:00:00");
-    const timer = document.getElementById('timer');
+  // Controle da música
+  const audio = document.getElementById('musica');
+  const botao = document.getElementById('btnMusica');
 
-    function atualizarTempo() {
-      const agora = new Date();
-      const diff = agora - dataInicio;
-
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diff / (1000 * 60)) % 60);
-      const segundos = Math.floor((diff / 1000) % 60);
-
-      timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
-    }
-    setInterval(atualizarTempo, 1000);
-    atualizarTempo();
-
-    // Controle da música
-    const audio = document.getElementById('musica');
-    const botao = document.getElementById('btnMusica');
-
-    function controlarMusica() {
-      if (audio.paused) {
-        audio.play();
+  botao.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().then(() => {
         botao.textContent = "⏸ Pausar Música";
-      } else {
-        audio.pause();
-        botao.textContent = "▶ Tocar Música";
-      }
+      }).catch((erro) => {
+        console.error("Erro ao tentar tocar a música:", erro);
+        alert("O navegador bloqueou o áudio. Tente clicar novamente.");
+      });
+    } else {
+      audio.pause();
+      botao.textContent = "▶ Tocar Música";
     }
-  </script>
-
-</body>
-</html>
+  });
+</script>
