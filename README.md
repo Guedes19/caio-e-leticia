@@ -1,154 +1,209 @@
 
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Caio & Letícia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       margin: 0;
-      padding: 0;
-      overflow-x: hidden;
       font-family: 'Arial', sans-serif;
-      text-align: center;
       position: relative;
+      overflow-x: hidden;
       color: white;
     }
-    /* Fundo escurecido + imagem de fundo */
-    body::before {
-      content: "";
-      background: url('fundo.jpg') no-repeat center center fixed;
-      background-size: cover;
+    .background {
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
-      opacity: 0.5; /* escurece */
+      width: 100vw;
+      height: 100vh;
+      background: url('fundo.jpg') center/cover no-repeat;
+      z-index: -3;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
       z-index: -2;
     }
-    .hearts {
+    .emoji {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: -1; /* atrás dos botões e texto */
-    }
-    .heart {
-      position: absolute;
       font-size: 24px;
       opacity: 1;
-      animation: cair 3s linear infinite;
+      z-index: -1;
+      pointer-events: none;
+      animation: fall linear forwards;
     }
-    @keyframes cair {
-      0% {
-        transform: translateY(-10vh);
+    @keyframes fall {
+      from {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
       }
-      100% {
-        transform: translateY(110vh);
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 1;
       }
     }
-    h1, p.timer, button {
+    .container {
       position: relative;
       z-index: 1;
-      text-shadow: 1px 1px 3px black;
+      padding: 2rem;
+      text-align: center;
     }
-    button {
-      background-color: #ff7f50;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 18px;
-      border-radius: 8px;
+    #temporizador {
+      font-size: 1.8rem;
+      margin: 1rem 0 2rem 0;
+      text-shadow: 0 0 6px black;
+    }
+    #musicaBtn {
       cursor: pointer;
-      margin: 10px;
-    }
-    #surpresaContainer {
-      display: none;
-      position: relative;
-      z-index: 1;
-      margin-top: 30px;
-    }
-    .foto-surpresa {
-      max-width: 300px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-    }
-    #textoMaquina {
-      white-space: pre-wrap;
-      font-size: 1.2em;
-      margin-top: 20px;
-      padding: 0 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #a855f7;
+      border: none;
+      border-radius: 8px;
       color: white;
-      text-shadow: 1px 1px 3px black;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease;
+    }
+    #musicaBtn:hover {
+      background-color: #7b3bd4;
+    }
+    #surpriseBtn {
+      cursor: pointer;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #34d399;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease;
+    }
+    #surpriseBtn:hover {
+      background-color: #22c55e;
+    }
+    #photo {
+      display: none;
+      max-width: 80%;
+      border-radius: 12px;
+      margin: 1rem auto 0 auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+    }
+    #typed-text {
+      margin: 1rem auto 0 auto;
+      white-space: pre-wrap;
+      font-size: 1.1rem;
+      max-width: 800px;
+      text-align: justify;
+      border-left: 3px solid #a855f7;
+      padding-left: 12px;
+      display: none;
+      text-shadow: 0 0 4px black;
     }
   </style>
 </head>
 <body>
-  <div class="hearts" id="heartsContainer"></div>
+  <div class="background"></div>
+  <div class="overlay"></div>
 
-  <h1>💖 Caio & Letícia 💖</h1>
-  <p><strong>Música:</strong> Space & Time - Rafael Witt</p>
-  <p class="timer" id="timer"></p>
-  <button id="btnMusica" onclick="controlarMusica()">▶ Tocar Música</button>
-  <button onclick="mostrarFoto()">🎁 Ver Surpresa</button>
+  <div class="container">
+    <h1>Caio & Letícia</h1>
+    <div id="temporizador">Carregando tempo juntos...</div>
 
-  <audio id="musica" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
+    <button id="musicaBtn">▶ Tocar Música</button><br />
+    <button id="surpriseBtn">🎁 Mostrar Surpresa</button>
 
-  <div id="surpresaContainer">
-    <img class="foto-surpresa" src="foto-surpresa.jpg" alt="Nossa Foto Juntos">
-    <p id="textoMaquina"></p>
+    <audio id="musica" loop>
+      <source src="musica.mp3" type="audio/mpeg" />
+      Seu navegador não suporta áudio.
+    </audio>
+
+    <img id="photo" src="foto.jpg" alt="Foto Surpresa" />
+    <p id="typed-text"></p>
   </div>
 
   <script>
-    const dataInicio = new Date("2025-05-24T18:00:00");
-    const timer = document.getElementById('timer');
-    setInterval(() => {
-      const diff = Date.now() - dataInicio;
-      const dias = Math.floor(diff / (1000*60*60*24));
-      const horas = Math.floor((diff / (1000*60*60)) % 24);
-      const minutos = Math.floor((diff / (1000*60)) % 60);
+    // Temporizador
+    const inicio = new Date("2025-05-24T18:00:00");
+    const temporizador = document.getElementById('temporizador');
+    function atualizarTempo() {
+      const agora = new Date();
+      const diff = agora - inicio;
+      if (diff < 0) {
+        temporizador.textContent = "Nosso relacionamento ainda não começou!";
+        return;
+      }
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
       const segundos = Math.floor((diff / 1000) % 60);
-      timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
-    }, 1000);
+      temporizador.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
+    }
+    atualizarTempo();
+    setInterval(atualizarTempo, 1000);
 
-    const audio = document.getElementById('musica');
-    const btn = document.getElementById('btnMusica');
-    btn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        btn.textContent = "⏸ Pausar Música";
+    // Música
+    const musica = document.getElementById('musica');
+    const musicaBtn = document.getElementById('musicaBtn');
+    musicaBtn.addEventListener('click', () => {
+      if (musica.paused) {
+        musica.play();
+        musicaBtn.textContent = "⏸ Pausar Música";
       } else {
-        audio.pause();
-        btn.textContent = "▶ Tocar Música";
+        musica.pause();
+        musicaBtn.textContent = "▶ Tocar Música";
       }
     });
 
-    function mostrarFoto() {
-      const container = document.getElementById('surpresaContainer');
-      const texto = `Minha princesa, este temporizador marca o início oficial de nosso relacionamento diante de Deus e dos homens... (seu texto completo aqui)`;
-      const el = document.getElementById('textoMaquina');
-      container.style.display = 'block';
-      el.textContent = '';
-      let i = 0;
-      const id = setInterval(() => {
-        el.textContent += texto[i++];
-        if (i >= texto.length) clearInterval(id);
-      }, 25);
+    // Corações
+    const emojis = ["💚", "💜"];
+    function criarCoracao() {
+      const coracao = document.createElement('div');
+      coracao.classList.add('emoji');
+      coracao.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      coracao.style.left = Math.random() * 100 + "vw";
+      coracao.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(coracao);
+      setTimeout(() => coracao.remove(), 8000);
+    }
+    setInterval(criarCoracao, 200);
+
+    // Surpresa
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const photo = document.getElementById('photo');
+    const typedText = document.getElementById('typed-text');
+
+    const textoCompleto = `Minha princesa, este temporizador marca o início oficial de nosso relacionamento diante de Deus e dos homens; E há quanto tempo eu sou o homem mais feliz, rico e sortudo desse universo.
+
+Que essa simples página - mas dotada de muito amor e carinho - esteja acessível em qualquer dia, horas e lugar para nos (re)lembrar de quão maravilhoso é o nosso amor e que ele rompe qualquer barreira, passa por cima de qualquer empecilho e expulsa qualquer medo e orgulho, pois, com Cristo no barco, tudo vai muito bem.
+
+E saiba que te honro, te admiro, te zelo, me inspiro em vocẽ e, por onde for, quero ser seu par.
+
+Que sempre lembremos e creiamos nisto: “Nenhum de nós é tão bom quanto nós dois juntos!”
+
+Te amo... Muitão!
+
+Com muito amor, zelo, carinho, afeto e admiração,  
+Seu amigo, parceiro e namorado: Caio.`;
+
+    function escreverTexto(elemento, texto, indice = 0) {
+      if (indice === 0) {
+        elemento.style.display = "block";
+        elemento.textContent = "";
+      }
+      if (indice < texto.length) {
+        elemento.textContent += texto.charAt(indice);
+        setTimeout(() => escreverTexto(elemento, texto, indice + 1), 30);
+      }
     }
 
-    const heartsContainer = document.getElementById('heartsContainer');
-    const emojis = ['💚', '💜'];
-    setInterval(() => {
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      h.style.left = Math.random() * 100 + 'vw';
-      h.style.animationDuration = 3 + Math.random() * 2 + 's';
-      heartsContainer.appendChild(h);
-      setTimeout(() => heartsContainer.removeChild(h), 5000);
-    }, 300);
+    surpriseBtn.addEventListener('click', () => {
+      photo.style.display = "block";
+      escreverTexto(typedText, textoCompleto);
+    });
   </script>
 </body>
 </html>
