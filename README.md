@@ -6,31 +6,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: url('fundo.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
+      font-family: 'Arial', sans-serif;
       overflow-x: hidden;
       color: white;
-      text-shadow: 1px 1px 4px black;
+      text-align: center;
+    }
+
+    /* Fundo com escurecimento por sobreposição */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5); /* escurecimento */
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('fundo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      z-index: -2;
     }
 
     h1 {
       font-size: 3em;
       margin-top: 40px;
+      text-shadow: 1px 1px 4px black;
     }
 
     p {
       font-size: 1.2em;
       margin-bottom: 20px;
+      text-shadow: 1px 1px 3px black;
     }
 
     .timer {
       font-size: 2em;
       font-weight: bold;
       margin-top: 20px;
+      text-shadow: 1px 1px 3px black;
     }
 
     button {
@@ -43,6 +67,8 @@
       cursor: pointer;
       transition: background 0.3s;
       margin: 15px 10px;
+      z-index: 1;
+      position: relative;
     }
 
     button:hover {
@@ -53,10 +79,10 @@
       position: fixed;
       top: -2em;
       font-size: 24px;
-      opacity: 0.9;
+      opacity: 1; /* 100% visível */
       animation: cair linear forwards;
       pointer-events: none;
-      z-index: 0;
+      z-index: -1; /* atrás de tudo, exceto o fundo */
     }
 
     @keyframes cair {
@@ -137,7 +163,7 @@
       img.style.display = 'block';
     }
 
-    // Corações
+    // Chuva de corações
     const coracoes = ['💚', '💜'];
 
     function criarCoracao() {
