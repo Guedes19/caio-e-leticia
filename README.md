@@ -2,174 +2,223 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caio & Letícia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
-    * {
+    /* Hack para esconder a faixa azul do GitHub Pages */
+    #github-banner, .github-banner {
+      display: none !important;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      overflow-x: hidden; /* Evita scroll horizontal */
+      width: 100%;
+      height: 100%;
     }
-
     body {
       font-family: 'Arial', sans-serif;
-      color: #fff;
-      background: url('fundo.jpg') no-repeat center center fixed;
-      background-size: cover;
+      color: white;
+      background: url('fundo.jpg') center/cover no-repeat fixed;
       position: relative;
-      overflow-x: hidden;
+      box-sizing: border-box;
     }
-
-    body::before {
-      content: '';
+    .overlay {
       position: fixed;
       top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6); /* fundo escuro */
-      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
     }
-
-    #hearts-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .heart {
+    .emoji {
       position: absolute;
       font-size: 24px;
+      pointer-events: none;
+      animation: fall linear forwards;
       opacity: 1;
-      animation: fall linear infinite;
+      z-index: 0;
+      will-change: transform;
     }
-
     @keyframes fall {
-      0% {
-        transform: translateY(-10px) rotate(0deg);
+      from {
+        transform: translateY(-50px) rotate(0deg);
         opacity: 1;
       }
-      100% {
+      to {
         transform: translateY(110vh) rotate(360deg);
         opacity: 1;
       }
     }
-
     .container {
-      position: relative;
-      z-index: 2;
-      padding: 2rem;
+      max-width: 600px;
+      width: 95%;
+      margin: auto;
+      padding: 1rem 1rem 3rem 1rem;
+      box-sizing: border-box;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
-
     h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      word-break: break-word;
     }
-
-    #countdown {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
+    #temporizador {
+      font-size: 1.4rem;
+      margin: 1rem 0 2rem 0;
+      text-shadow: 0 0 6px black;
+      word-break: break-word;
     }
-
     button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      margin: 10px;
-      cursor: pointer;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 1.1rem;
+      border-radius: 8px;
       border: none;
-      border-radius: 5px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: none;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    #surpresa {
-      display: none;
-      margin-top: 2rem;
+    #musicaBtn {
+      background-color: #a855f7;
     }
-
-    #surpresa img {
+    #musicaBtn:hover {
+      background-color: #7b3bd4;
+    }
+    #surpriseBtn {
+      background-color: #34d399;
+    }
+    #surpriseBtn:hover {
+      background-color: #22c55e;
+    }
+    #photo {
       max-width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin-bottom: 1rem;
+      border-radius: 12px;
+      margin: 1rem auto 0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      display: none;
+      object-fit: contain;
     }
-
-    #mensagem {
-      font-size: 1rem;
+    #typed-text {
+      margin: 1rem auto 0 auto;
       white-space: pre-wrap;
-      text-align: left;
-      max-width: 500px;
-      margin: auto;
+      font-size: 1rem;
+      max-width: 100%;
+      text-align: justify;
+      border-left: 3px solid #a855f7;
+      padding-left: 12px;
+      display: none;
+      text-shadow: 0 0 4px black;
+      line-height: 1.5em;
+      box-sizing: border-box;
     }
-
-    @media (max-width: 600px) {
+    @media (max-width: 400px) {
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
       }
-
-      #countdown {
-        font-size: 1.2rem;
+      #temporizador {
+        font-size: 1.1rem;
       }
-
-      #mensagem {
+      button {
+        font-size: 1rem;
+        padding: 10px 0;
+        max-width: 100%;
+      }
+      #typed-text {
         font-size: 0.9rem;
-        padding: 0 1rem;
+        max-width: 100%;
+      }
+      #photo {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div id="hearts-container"></div>
+  <div class="overlay"></div>
 
   <div class="container">
     <h1>Caio & Letícia</h1>
-    <div id="countdown"></div>
-    <button onclick="toggleAudio()">🎵 Tocar Música</button>
-    <button onclick="mostrarSurpresa()">💌 Ver Surpresa</button>
+    <div id="temporizador">Carregando tempo juntos...</div>
 
-    <div id="surpresa">
-      <img src="foto-surpresa.jpg" alt="Foto Surpresa" />
-      <p id="mensagem"></p>
-    </div>
+    <button id="musicaBtn" title="Tocar ou pausar música">▶ Tocar Música</button>
+    <button id="surpriseBtn" title="Mostrar foto e mensagem surpresa">🎁 Mostrar Surpresa</button>
+
+    <audio id="musica" loop>
+      <source src="musica.mp3" type="audio/mpeg" />
+      Seu navegador não suporta áudio.
+    </audio>
+
+    <img id="photo" src="foto-surpresa.jpg" alt="Foto Surpresa" />
+    <p id="typed-text"></p>
   </div>
-
-  <audio id="audio" loop>
-    <source src="space-time.mp3" type="audio/mpeg" />
-    Seu navegador não suporta áudio.
-  </audio>
 
   <script>
     // Temporizador
-    const targetDate = new Date("2025-05-24T18:00:00").getTime();
-    const countdown = document.getElementById("countdown");
-
-    setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      if (distance <= 0) {
-        countdown.innerHTML = "Chegou o grande momento!";
+    const inicio = new Date("2025-05-24T18:00:00");
+    const temporizador = document.getElementById('temporizador');
+    function atualizarTempo() {
+      const agora = new Date();
+      const diff = agora - inicio;
+      if (diff < 0) {
+        temporizador.textContent = "Nosso relacionamento ainda não começou!";
         return;
       }
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }, 1000);
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+      temporizador.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s juntos 💕`;
+    }
+    atualizarTempo();
+    setInterval(atualizarTempo, 1000);
 
     // Música
-    function toggleAudio() {
-      const audio = document.getElementById("audio");
-      audio.paused ? audio.play() : audio.pause();
-    }
+    const musica = document.getElementById('musica');
+    const musicaBtn = document.getElementById('musicaBtn');
+    musicaBtn.addEventListener('click', () => {
+      if (musica.paused) {
+        musica.play();
+        musicaBtn.textContent = "⏸ Pausar Música";
+      } else {
+        musica.pause();
+        musicaBtn.textContent = "▶ Tocar Música";
+      }
+    });
 
-    // Máquina de escrever
-    function mostrarSurpresa() {
-      const surpresa = document.getElementById("surpresa");
-      const mensagem = document.getElementById("mensagem");
-      const texto = `Minha princesa, este temporizador marca o início oficial de nosso relacionamento diante de Deus e dos homens; E há quanto tempo eu sou o homem mais feliz, rico e sortudo desse universo.
+    // Corações
+    const emojis = ["💚", "💜"];
+    function criarCoracao() {
+      const coracao = document.createElement('div');
+      coracao.classList.add('emoji');
+      coracao.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      coracao.style.left = Math.random() * (document.body.clientWidth - 30) + "px";
+      coracao.style.top = "-50px";
+      coracao.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(coracao);
+      setTimeout(() => coracao.remove(), 8000);
+    }
+    setInterval(criarCoracao, 200);
+
+    // Surpresa
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const photo = document.getElementById('photo');
+    const typedText = document.getElementById('typed-text');
+
+    const textoCompleto = `Minha princesa, este temporizador marca o início oficial de nosso relacionamento diante de Deus e dos homens; E há quanto tempo eu sou o homem mais feliz, rico e sortudo desse universo.
 
 Que essa simples página - mas dotada de muito amor e carinho - esteja acessível em qualquer dia, horas e lugar para nos (re)lembrar de quão maravilhoso é o nosso amor e que ele rompe qualquer barreira, passa por cima de qualquer empecilho e expulsa qualquer medo e orgulho, pois, com Cristo no barco, tudo vai muito bem.
 
@@ -179,38 +228,24 @@ Que sempre lembremos e creiamos nisto: “Nenhum de nós é tão bom quanto nós
 
 Te amo... Muitão!
 
-Com muito amor, zelo, carinho, afeto e admiração, Seu amigo, parceiro e namorado: Caio.`;
+Com muito amor, zelo, carinho, afeto e admiração,  
+Seu amigo, parceiro e namorado: Caio.`;
 
-      surpresa.style.display = "block";
-      mensagem.textContent = "";
-      let index = 0;
-      const intervalo = setInterval(() => {
-        if (index < texto.length) {
-          mensagem.textContent += texto.charAt(index);
-          index++;
-        } else {
-          clearInterval(intervalo);
-        }
-      }, 40);
+    function escreverTexto(elemento, texto, indice = 0) {
+      if (indice === 0) {
+        elemento.style.display = "block";
+        elemento.textContent = "";
+      }
+      if (indice < texto.length) {
+        elemento.textContent += texto.charAt(indice);
+        setTimeout(() => escreverTexto(elemento, texto, indice + 1), 30);
+      }
     }
 
-    // Corações caindo
-    const heartContainer = document.getElementById("hearts-container");
-    const cores = ['💚', '💜'];
-
-    function criarCoracao() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (6 + Math.random() * 2) + 's';
-      heart.innerHTML = cores[Math.floor(Math.random() * cores.length)];
-      heart.style.opacity = '1';
-      heartContainer.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 8000);
-    }
-
-    setInterval(criarCoracao, 300);
+    surpriseBtn.addEventListener('click', () => {
+      photo.style.display = "block";
+      escreverTexto(typedText, textoCompleto);
+    });
   </script>
 </body>
 </html>
