@@ -5,13 +5,19 @@
   <title>Caio & Letícia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      overflow-x: hidden; /* Evita scroll horizontal */
+      width: 100%;
+      height: 100%;
+    }
+    body {
       font-family: 'Arial', sans-serif;
-      position: relative;
-      overflow-x: hidden;
       color: white;
       background: url('fundo.jpg') center/cover no-repeat fixed;
+      position: relative;
+      box-sizing: border-box;
     }
     .overlay {
       position: fixed;
@@ -24,10 +30,10 @@
     .emoji {
       position: fixed;
       font-size: 24px;
-      opacity: 1;
-      z-index: 0;
       pointer-events: none;
       animation: fall linear forwards;
+      opacity: 1;
+      z-index: 0;
     }
     @keyframes fall {
       from {
@@ -40,13 +46,14 @@
       }
     }
     .container {
+      max-width: 600px;
+      width: 95%;
+      margin: auto;
+      padding: 1rem 1rem 3rem 1rem;
+      box-sizing: border-box;
+      text-align: center;
       position: relative;
       z-index: 1;
-      padding: 1rem 1rem 3rem 1rem;
-      max-width: 600px;
-      margin: auto;
-      text-align: center;
-      box-sizing: border-box;
     }
     h1 {
       font-size: 2.5rem;
@@ -60,23 +67,23 @@
       word-break: break-word;
     }
     button {
-      cursor: pointer;
-      padding: 12px 24px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      transition: background-color 0.3s ease;
       width: 100%;
-      max-width: 300px;
-      color: white;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 12px 0;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+      cursor: pointer;
       user-select: none;
+      color: white;
+      transition: background-color 0.3s ease;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: none;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     #musicaBtn {
       background-color: #a855f7;
@@ -91,20 +98,19 @@
       background-color: #22c55e;
     }
     #photo {
-      display: none;
-      width: 90%;
-      max-width: 450px;
+      max-width: 100%;
       height: auto;
       border-radius: 12px;
-      margin: 1rem auto 0 auto;
+      margin: 1rem auto 0;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      display: none;
       object-fit: contain;
     }
     #typed-text {
       margin: 1rem auto 0 auto;
       white-space: pre-wrap;
       font-size: 1rem;
-      max-width: 90%;
+      max-width: 100%;
       text-align: justify;
       border-left: 3px solid #a855f7;
       padding-left: 12px;
@@ -122,16 +128,15 @@
       }
       button {
         font-size: 1rem;
-        padding: 10px 20px;
+        padding: 10px 0;
         max-width: 100%;
       }
       #typed-text {
         font-size: 0.9rem;
-        max-width: 95%;
+        max-width: 100%;
       }
       #photo {
-        width: 95%;
-        max-width: 100%;
+        width: 100%;
       }
     }
   </style>
@@ -194,7 +199,7 @@
       const coracao = document.createElement('div');
       coracao.classList.add('emoji');
       coracao.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      coracao.style.left = Math.random() * 100 + "vw";
+      coracao.style.left = Math.random() * (window.innerWidth - 30) + "px";
       coracao.style.animationDuration = (Math.random() * 3 + 4) + "s";
       document.body.appendChild(coracao);
       setTimeout(() => coracao.remove(), 8000);
