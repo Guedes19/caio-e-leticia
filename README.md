@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Caio & Letícia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
     body {
       margin: 0;
@@ -11,14 +11,7 @@
       position: relative;
       overflow-x: hidden;
       color: white;
-    }
-    .background {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('fundo.jpg') center/cover no-repeat;
-      z-index: -3;
+      background: url('fundo.jpg') center/cover no-repeat fixed;
     }
     .overlay {
       position: fixed;
@@ -26,13 +19,13 @@
       width: 100vw;
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.6);
-      z-index: -2;
+      z-index: -1;
     }
     .emoji {
       position: fixed;
       font-size: 24px;
       opacity: 1;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
       animation: fall linear forwards;
     }
@@ -49,45 +42,51 @@
     .container {
       position: relative;
       z-index: 1;
-      padding: 2rem;
+      padding: 1rem 1rem 3rem 1rem;
+      max-width: 600px;
+      margin: auto;
       text-align: center;
     }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
     #temporizador {
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       margin: 1rem 0 2rem 0;
       text-shadow: 0 0 6px black;
     }
-    #musicaBtn {
+    button {
       cursor: pointer;
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #a855f7;
+      padding: 12px 24px;
+      font-size: 1.1rem;
       border: none;
       border-radius: 8px;
-      color: white;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       transition: background-color 0.3s ease;
+      width: 100%;
+      max-width: 300px;
+      color: white;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      user-select: none;
+    }
+    #musicaBtn {
+      background-color: #a855f7;
     }
     #musicaBtn:hover {
       background-color: #7b3bd4;
     }
     #surpriseBtn {
-      cursor: pointer;
-      padding: 10px 20px;
-      font-size: 18px;
       background-color: #34d399;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      margin-bottom: 20px;
-      transition: background-color 0.3s ease;
     }
     #surpriseBtn:hover {
       background-color: #22c55e;
     }
     #photo {
       display: none;
-      max-width: 80%;
+      max-width: 100%;
       border-radius: 12px;
       margin: 1rem auto 0 auto;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
@@ -95,25 +94,40 @@
     #typed-text {
       margin: 1rem auto 0 auto;
       white-space: pre-wrap;
-      font-size: 1.1rem;
-      max-width: 800px;
+      font-size: 1rem;
+      max-width: 100%;
       text-align: justify;
       border-left: 3px solid #a855f7;
       padding-left: 12px;
       display: none;
       text-shadow: 0 0 4px black;
+      line-height: 1.5em;
+    }
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      #temporizador {
+        font-size: 1.1rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+      #typed-text {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
   <div class="overlay"></div>
 
   <div class="container">
     <h1>Caio & Letícia</h1>
     <div id="temporizador">Carregando tempo juntos...</div>
 
-    <button id="musicaBtn">▶ Tocar Música</button><br />
+    <button id="musicaBtn">▶ Tocar Música</button>
     <button id="surpriseBtn">🎁 Mostrar Surpresa</button>
 
     <audio id="musica" loop>
